@@ -10,7 +10,7 @@ import Progress from './pages/Progress';
 import Caseload from './pages/Caseload';
 import Messages from './pages/Messages';
 import Assets from './pages/Assets';
-import { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
