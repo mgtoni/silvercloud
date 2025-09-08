@@ -67,6 +67,5 @@ const App: React.FC = () => {
   };
 
   return (
-    return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-100">
