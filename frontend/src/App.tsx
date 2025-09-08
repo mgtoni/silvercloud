@@ -14,7 +14,6 @@ import type { Session } from '@supabase/supabase-js';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
-  const navigate = useNavigate(); // Use useNavigate hook
 
   useEffect(() => {
     const loadSession = async () => {
@@ -59,7 +58,6 @@ const App: React.FC = () => {
       localStorage.removeItem('supabase_access_token');
       localStorage.removeItem('supabase_refresh_token');
       setSession(null);
-      navigate('/login'); // Redirect to login page after logout
     } catch (error) {
       console.error("Error during logout:", error);
       alert("Logout failed.");
