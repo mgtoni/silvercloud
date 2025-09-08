@@ -14,13 +14,17 @@ load_dotenv()
 
 # Supabase setup
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY") # This is your anon key
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") # This is your service_role key
 SUPABASE_JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET")
 
-if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_JWT_SECRET]):
-    raise Exception("Supabase environment variables not set.")
+if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_JWT_SECRET]):
+    raise Exception("Supabase environment variables not set. Make sure SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, and SUPABASE_JWT_SECRET are all defined.")
 
+# Client for regular user operations (uses anon key)
 supabase_client = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
+# Client for admin operations (uses service_role key)
+supabase_admin_client = supabase.create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
 app = FastAPI()
 
@@ -39,6 +43,15 @@ class User(BaseModel):
     id: str
     role: Optional[str] = 'participant'
     full_name: Optional[str] = 'Test User'
+
+class UserRegister(BaseModel):
+    email: str
+    password: str
+    full_name: Optional[str] = None
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
 
 class ExerciseResponse(BaseModel):
     response_data: Dict[str, Any]
@@ -127,6 +140,45 @@ async def get_current_user(request: Request) -> User:
 @app.get("/")
 def read_root():
     return {"message": "Silvercloud clone API is running!"}
+
+@app.post("/auth/signup")
+async def signup(user_data: UserRegister):
+    try:
+        # Create user in Supabase auth
+        user_response = supabase_admin_client.auth.admin.create_user(
+            {
+                "email": user_data.email,
+                "password": user_data.password,
+                "email_confirm": True, # Auto-confirm email for simplicity, adjust as needed
+            }
+        )
+        
+        # Insert into profiles table
+        profile_data = {"id": user_response.user.id, "email": user_data.email}
+        if user_data.full_name:
+            profile_data["full_name"] = user_data.full_name
+
+        supabase_admin_client.table("profiles").insert(profile_data).execute()
+
+        return {"message": "User registered successfully", "user_id": user_response.user.id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/auth/login")
+async def login(user_data: UserLogin):
+    try:
+        response = supabase_client.auth.sign_in_with_password({
+            "email": user_data.email,
+            "password": user_data.password,
+        })
+        return {
+            "message": "Login successful",
+            "access_token": response.session.access_token,
+            "refresh_token": response.session.refresh_token,
+            "user": response.user.model_dump()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
 
 # --- Participant Endpoints ---
 
