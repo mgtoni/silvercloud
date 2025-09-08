@@ -1,0 +1,9 @@
+# Environments
+.env
+
+# NPM
+node_modules/
+package-lock.json
+
+# Vite
+dist/
