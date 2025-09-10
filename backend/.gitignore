@@ -1,9 +1,0 @@
-# Environments
-.env
-
-# Python
-__pycache__/
-*.pyc
-.pytest_cache/
-virtualenv/
-venv/
