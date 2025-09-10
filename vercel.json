@@ -11,7 +11,7 @@
         "installCommand": "npm install",
         "distDir": "dist"
       },
-      "outputDirectory": "frontend/dist"
+      "root": "frontend"
     }
   ],
   "routes": [
