@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     const body = isSignUp ? { email, password, full_name: fullName } : { email, password };
 
     try {
-      const response = await fetch(`__BACKEND_URL__${endpoint}`, {
+      const response = await fetch(`${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
