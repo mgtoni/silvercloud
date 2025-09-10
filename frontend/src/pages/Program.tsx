@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../supabaseClient';
+import { apiClient } from '../supabaseClient'; // Import apiClient
 
 interface Exercise {
   id: number;
@@ -31,22 +31,8 @@ const Program: React.FC = () => {
   useEffect(() => {
     const fetchProgram = async () => {
       try {
-        const session = await supabase.auth.getSession();
-        if (!session.data.session) {
-          throw new Error('Not authenticated');
-        }
-
-        const response = await fetch('/api/program', {
-          headers: {
-            'Authorization': `Bearer ${session.data.session.access_token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch program data');
-        }
-
-        const data = await response.json();
+        // Use apiClient to fetch data from your backend
+        const data = await apiClient.get('/program');
         setProgram(data);
       } catch (err: any) {
         setError(err.message);

@@ -10,7 +10,8 @@
       "config": {
         "installCommand": "npm install",
         "distDir": "dist"
-      }
+      },
+      "outputDirectory": "frontend/dist"
     }
   ],
   "routes": [
