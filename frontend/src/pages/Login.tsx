@@ -9,11 +9,6 @@ const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
-  // Temporary console.log to debug VITE_BACKEND_URL
-  React.useEffect(() => {
-    console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
-  }, []);
-
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -22,7 +17,7 @@ const Login: React.FC = () => {
     const body = isSignUp ? { email, password, full_name: fullName } : { email, password };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${endpoint}`, {
+      const response = await fetch(`__BACKEND_URL__${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

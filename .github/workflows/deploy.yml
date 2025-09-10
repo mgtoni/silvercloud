@@ -26,12 +26,17 @@ jobs:
         working-directory: ./frontend
 
       - name: Build
-        run: |
-          VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} npm run build
+        run: npm run build
         working-directory: ./frontend
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Replace Backend URL Placeholder
+        run: |
+          find ./frontend/dist -type f -name '*.js' -exec sed -i 's|__BACKEND_URL__|${{ secrets.VITE_BACKEND_URL }}|g' {} +
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }} # Ensure it's available for sed
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
