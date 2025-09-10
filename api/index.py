@@ -144,24 +144,21 @@ def read_root():
 @app.post("/auth/signup")
 async def signup(user_data: UserRegister):
     try:
-        # Create user in Supabase auth
-        user_response = supabase_admin_client.auth.admin.create_user(
-            {
-                "email": user_data.email,
-                "password": user_data.password,
-                "email_confirm": True, # Auto-confirm email for simplicity, adjust as needed
-            }
-        )
-        
-        # Insert into profiles table
-        profile_data = {"id": user_response.user.id}
+        # Prepare user data, including metadata
+        user_attrs = {
+            "email": user_data.email,
+            "password": user_data.password,
+            "email_confirm": True, # Auto-confirm for simplicity
+        }
         if user_data.full_name:
-            profile_data["full_name"] = user_data.full_name
+            user_attrs["user_meta_data"] = {"full_name": user_data.full_name}
 
-        supabase_admin_client.table("profiles").insert(profile_data).execute()
+        # Create user in Supabase auth. The trigger will handle the profile.
+        user_response = supabase_admin_client.auth.admin.create_user(user_attrs)
 
         return {"message": "User registered successfully", "user_id": user_response.user.id}
     except Exception as e:
+        # Check for specific Supabase errors if possible, e.g., user already exists
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.post("/auth/login")
