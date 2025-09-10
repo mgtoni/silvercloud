@@ -37,7 +37,7 @@ jobs:
         run: npm ci
         working-directory: ./frontend
       - name: Build
-        run: npm run build
+        run: npm run build -- --base=/silvercloud/
         working-directory: ./frontend
       - name: Setup Pages
         uses: actions/configure-pages@v5
