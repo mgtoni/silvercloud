@@ -5,10 +5,8 @@
       "use": "@vercel/python"
     },
     {
-      "src": "frontend",
-      "use": "@vercel/static-build",
-      "buildCommand": "npm install && npm run build",
-      "outputDirectory": "frontend/dist"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
