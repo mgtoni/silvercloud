@@ -154,7 +154,7 @@ async def signup(user_data: UserRegister):
         )
         
         # Insert into profiles table
-        profile_data = {"id": user_response.user.id, "email": user_data.email}
+        profile_data = {"id": user_response.user.id}
         if user_data.full_name:
             profile_data["full_name"] = user_data.full_name
 
