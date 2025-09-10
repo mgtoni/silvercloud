@@ -10,8 +10,7 @@
       "config": {
         "installCommand": "npm install",
         "distDir": "dist"
-      },
-      "root": "frontend"
+      }
     }
   ],
   "routes": [
@@ -21,11 +20,11 @@
     },
     {
       "src": "/",
-      "dest": "/index.html"
+      "dest": "/frontend/dist/index.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/frontend/dist/index.html"
     }
   ]
 }
