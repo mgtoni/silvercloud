@@ -20,7 +20,7 @@ const Assessments: React.FC = () => {
           throw new Error('Not authenticated');
         }
 
-        const response = await fetch('http://localhost:8000/assessments', {
+        const response = await fetch('/api/assessments', {
           headers: {
             'Authorization': `Bearer ${session.data.session.access_token}`,
           },

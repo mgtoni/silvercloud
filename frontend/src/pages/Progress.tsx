@@ -19,7 +19,7 @@ const Progress: React.FC = () => {
           throw new Error('Not authenticated');
         }
 
-        const response = await fetch('http://localhost:8000/progress', {
+        const response = await fetch('/api/progress', {
           headers: {
             'Authorization': `Bearer ${session.data.session.access_token}`,
           },

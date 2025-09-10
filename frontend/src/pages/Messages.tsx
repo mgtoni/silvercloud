@@ -25,7 +25,7 @@ const Messages: React.FC = () => {
           throw new Error('Not authenticated');
         }
 
-        const response = await fetch(`http://localhost:8000/messages/thread/${threadUserId}`, {
+        const response = await fetch(`/api/messages/thread/${threadUserId}`, {
           headers: {
             'Authorization': `Bearer ${session.data.session.access_token}`,
           },

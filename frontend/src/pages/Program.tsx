@@ -36,7 +36,7 @@ const Program: React.FC = () => {
           throw new Error('Not authenticated');
         }
 
-        const response = await fetch('http://localhost:8000/program', {
+        const response = await fetch('/api/program', {
           headers: {
             'Authorization': `Bearer ${session.data.session.access_token}`,
           },
