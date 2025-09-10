@@ -9,6 +9,11 @@ const Login: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
 
+  // Temporary console.log to debug VITE_BACKEND_URL
+  React.useEffect(() => {
+    console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
+  }, []);
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
