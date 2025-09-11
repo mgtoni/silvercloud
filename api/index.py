@@ -24,8 +24,7 @@ if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_JWT_
 supabase_client = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
 supabase_admin_client = supabase.create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
-root_path = "/api/index" if os.environ.get("Vercel") else ""
-app = FastAPI(root_path=root_path)
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -146,7 +145,7 @@ def read_root():
     return {"message": "Silvercloud clone API is running!"}
 
 
-@app.post("/index/auth/signup")
+@app.post("/auth/signup")
 async def signup(user_data: UserRegister, request: Request):
     info = {
         "app_root_path": app.root_path,                       # usually "" on Vercel
