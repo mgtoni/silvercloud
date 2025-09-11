@@ -24,7 +24,12 @@ if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_JWT_
 supabase_client = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
 supabase_admin_client = supabase.create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
+<<<<<<< HEAD
 app = FastAPI()
+=======
+root_path = "/api/index" if os.environ.get("VERCEL") else ""
+app = FastAPI(root_path=root_path)
+>>>>>>> parent of 733c48c (Update index.py)
 
 app.add_middleware(
     CORSMiddleware,
