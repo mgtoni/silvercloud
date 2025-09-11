@@ -24,7 +24,7 @@ if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_JWT_
 supabase_client = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
 supabase_admin_client = supabase.create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
-root_path = "/api/index" if os.environ.get("VERCEL") else ""
+root_path = "/api/index" if os.environ.get("Vercel") else ""
 app = FastAPI(root_path=root_path)
 
 app.add_middleware(
