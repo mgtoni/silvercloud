@@ -151,7 +151,7 @@ def read_root():
     return {"message": "Silvercloud clone API is running!"}
 
 
-@app.post("/auth/signup")
+@app.post("/signup")
 async def signup(user_data: UserRegister, request: Request):
     info = {
         "app_root_path": app.root_path,                       # usually "" on Vercel
