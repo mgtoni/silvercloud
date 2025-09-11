@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
-    const endpoint = isSignUp ? "/api/signup" : "/api/auth/login";
+    const endpoint = isSignUp ? "/api/auth/signup" : "/api/auth/login";
     const body = isSignUp
       ? { email, password, full_name: fullName }
       : { email, password };
