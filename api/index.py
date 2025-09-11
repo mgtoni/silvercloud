@@ -41,7 +41,7 @@ supabase_admin_client = supabase.create_client(SUPABASE_URL, SUPABASE_SERVICE_RO
 
 print("API: Supabase clients created.") # ADD THIS LINE
 
-app = FastAPI(root_path="/api" if os.getenv("VERCEL") else "")
+app = FastAPI()
 
 print("API: FastAPI app created.") # ADD THIS LINE
 
