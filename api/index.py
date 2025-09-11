@@ -147,7 +147,7 @@ def read_root():
 
 
 @app.post("/auth/signup")
-async def signup(user_data: UserRegister):
+async def signup(user_data: UserRegister, request: Request):
     info = {
         "app_root_path": app.root_path,                       # usually "" on Vercel
         "scope_root_path": request.scope.get("root_path", ""),# best source of truth
