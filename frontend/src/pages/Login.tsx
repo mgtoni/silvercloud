@@ -19,6 +19,7 @@ const Login: React.FC = () => {
       : { email, password };
 
     try {
+      console.log("Endpoint:", endpoint);
       const response = await fetch(`${endpoint}`, {
         method: "POST",
         headers: {
