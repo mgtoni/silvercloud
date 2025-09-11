@@ -139,7 +139,13 @@ async def get_current_user(request: Request) -> User:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
+@app.get("/__debug")
+def dbg(request: Request):
+    return {
+        "seen_path": request.url.path,
+        "root_path": request.scope.get("root_path", "")
+    }
+    
 @app.get("/")
 def read_root():
     return {"message": "Silvercloud clone API is running!"}
