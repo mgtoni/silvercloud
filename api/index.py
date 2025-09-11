@@ -7,6 +7,18 @@ from jose import jwt, JWTError
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from datetime import datetime
+import logging, sys
+
+logger = logging.getLogger("app")
+logger.setLevel(logging.INFO)
+
+if not logger.handlers:
+    h = logging.StreamHandler(sys.stdout)   # Vercel captures stdout
+    f = logging.Formatter(
+        "%(asctime)s | %(levelname)s | %(message)s"
+    )
+    h.setFormatter(f)
+    logger.addHandler(h)
 
 load_dotenv()
 
@@ -139,6 +151,22 @@ async def get_current_user(request: Request) -> User:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.info(
+        "REQ %s %s root_path=%s host=%s",
+        request.method,
+        request.url.path,
+        request.scope.get("root_path", ""),
+        request.headers.get("host"),
+    )
+    try:
+        response = await call_next(request)
+    except Exception as e:
+        logger.exception("Unhandled error for %s %s: %s", request.method, request.url.path, e)
+        raise
+    logger.info("RES %s %s -> %s", request.method, request.url.path, response.status_code)
+    return response
 
 @app.get("/")
 def read_root():
@@ -157,8 +185,8 @@ async def signup(user_data: UserRegister, request: Request):
         "x-forwarded-proto": request.headers.get("x-forwarded-proto"),
         "x-forwarded-host": request.headers.get("x-forwarded-host"),
     }
-    print("DEBUG signup:", info, flush=True)
-    print("SIGNUP HIT:", request.method, request.url.path, flush=True)
+    logger.info("DEBUG signup:", info)
+    logger.info("SIGNUP HIT:", request.method, request.url.path)
     try:
         user_response = supabase_admin_client.auth.admin.create_user(
             {
