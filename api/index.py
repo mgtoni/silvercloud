@@ -148,6 +148,17 @@ def read_root():
 
 @app.post("/auth/signup")
 async def signup(user_data: UserRegister):
+    info = {
+        "app_root_path": app.root_path,                       # usually "" on Vercel
+        "scope_root_path": request.scope.get("root_path", ""),# best source of truth
+        "url_path": request.url.path,                         # e.g. "/auth/signup"
+        "full_url": str(request.url),
+        "base_url": str(request.base_url),
+        "host": request.headers.get("host"),
+        "x-forwarded-proto": request.headers.get("x-forwarded-proto"),
+        "x-forwarded-host": request.headers.get("x-forwarded-host"),
+    }
+    print("DEBUG signup:", info)
     try:
         user_response = supabase_admin_client.auth.admin.create_user(
             {
