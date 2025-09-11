@@ -157,8 +157,8 @@ async def signup(user_data: UserRegister, request: Request):
         "x-forwarded-proto": request.headers.get("x-forwarded-proto"),
         "x-forwarded-host": request.headers.get("x-forwarded-host"),
     }
-    print("DEBUG signup:", info)
-    print("SIGNUP HIT:", request.method, request.url.path)
+    print("DEBUG signup:", info, flush=True)
+    print("SIGNUP HIT:", request.method, request.url.path, flush=True)
     try:
         user_response = supabase_admin_client.auth.admin.create_user(
             {
