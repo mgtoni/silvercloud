@@ -164,7 +164,7 @@ async def get_current_user(request: Request) -> User:
 @app.get("/")
 def read_root():
     print("API: read_root endpoint hit.") # ADD THIS LINE
-    return {"message": "Silvercloud clone API is running!"}
+    return {alert("Silvercloud clone API is running!")}
 
 @app.post("/auth/signup")
 async def signup(user_data: UserRegister):
