@@ -1,7 +1,5 @@
 fastapi
-uvicorn[standard]
 pydantic
 supabase
 python-jose[cryptography]
 python-dotenv
-gunicorn
